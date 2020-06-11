@@ -1,7 +1,6 @@
 {
     "name": "lynhuang/laravel-cas-server",
     "description": "基于laravel实现的cas单点登录服务端",
-    "type": "composer-plugin",
     "license": "MIT",
     "keywords": ["sso", "laravel", "cas"],
     "authors": [
