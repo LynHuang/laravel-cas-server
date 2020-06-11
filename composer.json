@@ -1,0 +1,34 @@
+{
+    "name": "lyn/laravel-cas-server",
+    "description": "基于laravel实现的cas单点登录服务端",
+    "type": "composer-plugin",
+    "license": "MIT",
+    "keywords": ["sso", "laravel", "cas"],
+    "authors": [
+        {
+            "name": "Lyn Huang",
+            "email": "lyn1922huang@icloud.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.5"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "dev"
+        },
+        "laravel": {
+            "providers": [
+                "Lyn\\LaravelCasServer\\CasServerServiceProvider"
+            ],
+            "aliases": {
+                "CasServer": "Lyn\\LaravelCasServer\\Facade\\CasServer"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Lyn\\LaravelCasServer\\": "src/"
+        }
+    }
+}
