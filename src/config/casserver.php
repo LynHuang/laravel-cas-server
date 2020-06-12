@@ -23,7 +23,7 @@ return [
         /**
          * sso logout control by cas server
          */
-        'cas_sso_logout' => false,
+        'cas_slo' => false,
 
         /**
          * client return from cas

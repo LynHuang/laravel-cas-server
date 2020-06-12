@@ -33,7 +33,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        if (config('casserver.user.cas_sso_logout'))
+        if (config('casserver.user.cas_slo'))
             event(new CasLogoutEvent(session()->getId()));
         $this->loginInteraction->logout($request);
         return redirect(route('cas.login') . '?from=' . $request->get('from'));

@@ -35,7 +35,7 @@ class CasLogoutListener
 
         foreach ($tokens as $token) {
             $http = new Client();
-            $http->post($token->client->client_logout_callback, [
+            @$http->post($token->client->client_logout_callback, [
                 'token' => $token->client_token,
             ]);
         }
