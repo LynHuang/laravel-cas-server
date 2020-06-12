@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Lyn\LaravelCasServer\Commands\CasCreateClient;
 use Lyn\LaravelCasServer\Http\Middleware\CasAuthenticate;
 use Lyn\LaravelCasServer\Http\Middleware\CasTicketCheck;
+use Lyn\LaravelCasServer\Providers\EventServiceProvider;
 use Route;
 
 class CasServerServiceProvider extends ServiceProvider
@@ -20,7 +21,7 @@ class CasServerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+		$this->app->register(EventServiceProvider::class);
     }
 
     /**
