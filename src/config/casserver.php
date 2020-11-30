@@ -14,6 +14,9 @@ return [
     'enable' => false,
 
     'user' => [
+        /**
+         * laravel user default model
+         */
         'model' => App\User::class,
 
         'table' => 'users',

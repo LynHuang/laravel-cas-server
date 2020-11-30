@@ -31,21 +31,25 @@ class CasServerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //加载路由
         $this->registerRoutes();
-        //加载迁移
+        //register migration
         $this->registerMigrations();
         //register the middleware
         $this->registerMiddleware();
         //register the commands
         $this->registerCommands();
 
-        //发布资源
+        //publish resource to laravel
         $this->publishes([
             __DIR__ . '/config/casserver.php' => config_path('casserver.php'), // 发布配置文件到 laravel 的config 下
         ]);
     }
 
+
+    /**
+     * load route file to laravel
+     *
+     */
     private function registerRoutes()
     {
         Route::group($this->routeConfiguration(), function () {
@@ -54,6 +58,12 @@ class CasServerServiceProvider extends ServiceProvider
     }
 
 
+    /**
+     * load route config
+     *
+     *
+     * @return array
+     */
     private function routeConfiguration()
     {
         return [

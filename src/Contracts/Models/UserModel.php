@@ -4,6 +4,12 @@ namespace Lyn\LaravelCasServer\Contracts\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * cas user model interface
+ *
+ * Interface UserModel
+ * @package Lyn\LaravelCasServer\Contracts\Models
+ */
 interface UserModel
 {
     /**
@@ -24,4 +30,7 @@ interface UserModel
      * @return Model
      */
     public function getEloquentModel();
+
+
+    public function passwordCheck();
 }

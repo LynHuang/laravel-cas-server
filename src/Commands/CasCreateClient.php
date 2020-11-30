@@ -19,7 +19,7 @@ class CasCreateClient extends Command
      *
      * @var string
      */
-    protected $description = '创建一个cas客户端';
+    protected $description = 'create a cas client';
 
     /**
      * Create a new command instance.
