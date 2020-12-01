@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="64552b4d-d1be-4803-a2c4-f4021b298e0f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/laravel-cas-server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/laravel-cas-server.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,6 +39,7 @@
       <updated>1606745627874</updated>
       <workItem from="1606745630055" duration="537000" />
       <workItem from="1606786276363" duration="610000" />
+      <workItem from="1606800956336" duration="1993000" />
     </task>
     <servers />
   </component>
