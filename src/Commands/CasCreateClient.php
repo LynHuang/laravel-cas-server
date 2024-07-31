@@ -2,8 +2,8 @@
 
 namespace Lyn\LaravelCasServer\Commands;
 
-use http\Client;
 use Illuminate\Console\Command;
+use Lyn\LaravelCasServer\Models\Client;
 
 class CasCreateClient extends Command
 {
@@ -44,14 +44,15 @@ class CasCreateClient extends Command
 
         if (!$name or !$redirect) {
             $this->error('name & redirect can not be null');
-            return;
+            return false;
         }
 
-        $client = new \Lyn\LaravelCasServer\Models\Client();
+        $client = new Client();
         $client->client_name = $name;
         $client->client_redirect = $redirect;
         $client->client_logout_callback = $logout_callback ?? '';
         $client->save();
         $this->info("client: $name create success");
+        return true;
     }
 }

@@ -21,19 +21,6 @@ class CreateCasClientsTable extends Migration
             $table->boolean('client_enabled')->default(true);
             $table->timestamps();
         });
-
-        Schema::create('cas_tokens', function (Blueprint $table) {
-            $table->id();
-            $table->integer('user_id')->comment('登录用户id');
-            $table->integer('client_id')->comment('客户端id');
-            $table->string('server_session_id')->comment('服务器session_id');
-            $table->string('client_token')->comment('客户端登录凭证');
-            $table->timestamps();
-        });
-
-        Schema::table(config('casserver.user.table'), function (Blueprint $table) {
-            $table->string('last_session_id')->comment('上次登录session_id');
-        });
     }
 
     /**
@@ -44,9 +31,5 @@ class CreateCasClientsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('cas_clients');
-        Schema::dropIfExists('cas_token_cache');
-        Schema::table(config('casserver.user.table'), function (Blueprint $table) {
-            $table->dropColumn('last_session_id');
-        });
     }
 }

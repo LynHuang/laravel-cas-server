@@ -15,9 +15,4 @@ class Client extends Model
     protected $casts = [
         'client_enabled' => 'boolean',
     ];
-
-    public function tokens()
-    {
-        $this->hasMany('Lyn\LaravelCasServer\Models\Token', 'client_id');
-    }
 }

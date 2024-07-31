@@ -17,19 +17,19 @@ interface UserModel
      *
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * Get user's attributes
      *
      * @return array
      */
-    public function getCASAttributes();
+    public function getCASAttributes(): array;
 
     /**
      * @return Model
      */
-    public function getEloquentModel();
+    public function getEloquentModel(): Model;
 
 
     public function passwordCheck();

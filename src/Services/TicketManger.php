@@ -4,8 +4,8 @@ namespace Lyn\LaravelCasServer\Services;
 
 use Illuminate\Http\Request;
 use Lyn\LaravelCasServer\Models\Client;
-use Str;
-use Cache;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class TicketManger
 {

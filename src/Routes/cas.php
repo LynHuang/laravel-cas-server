@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Route;
 
 Route::get('login', 'LoginController@getLogin')->middleware('cas_auth')->name('cas.login');
 Route::get('register', 'AuthController@register')->middleware('cas_auth');

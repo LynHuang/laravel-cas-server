@@ -20,6 +20,7 @@ class CasException extends Exception
      */
     public function __construct($casErrorCode, $msg = '')
     {
+        parent::__construct();
         $this->casErrorCode = $casErrorCode;
         $this->message      = $msg;
     }
@@ -27,12 +28,12 @@ class CasException extends Exception
     /**
      * @return string
      */
-    public function getCasErrorCode()
+    public function getCasErrorCode(): string
     {
         return $this->casErrorCode;
     }
 
-    public function getCasMsg()
+    public function getCasMsg(): string
     {
         //todo translate error msg
         return $this->casErrorCode;

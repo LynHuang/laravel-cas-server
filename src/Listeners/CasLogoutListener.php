@@ -6,7 +6,6 @@ use GuzzleHttp\Client;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Lyn\LaravelCasServer\Events\CasLogoutEvent;
-use Lyn\LaravelCasServer\Repositories\TokenRepository;
 
 class CasLogoutListener
 {
