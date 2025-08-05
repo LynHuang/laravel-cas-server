@@ -13,88 +13,88 @@ use App\Models\User;
 use Lyn\LaravelCasServer\Models\TicketGrantingTicket;
 
 /**
- * CAS单点登出事件
+ * CAS用户登出事件
  * 
- * 当用户从CAS服务器登出时触发此事件，
- * 用于通知所有已登录的客户端应用执行登出操作
+ * 当用户主动登出或被强制登出时触发此事件，
+ * 用于记录登出行为和清理相关资源
  */
-class CasLogoutEvent
+class CasUserLoggedOutEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * 会话ID
-     * 
-     * @var string
-     */
-    protected $sessionId;
-    
-    /**
      * 用户对象
      * 
-     * @var User|null
+     * @var User
      */
-    protected $user;
+    public $user;
     
     /**
      * TGT票据
      * 
      * @var TicketGrantingTicket|null
      */
-    protected $tgt;
+    public $tgt;
     
     /**
      * 登出原因
      * 
      * @var string
      */
-    protected $reason;
+    public $reason;
     
     /**
      * 客户端IP地址
      * 
      * @var string
      */
-    protected $clientIp;
+    public $clientIp;
     
     /**
      * 用户代理
      * 
      * @var string
      */
-    protected $userAgent;
+    public $userAgent;
+    
+    /**
+     * 会话ID
+     * 
+     * @var string
+     */
+    public $sessionId;
     
     /**
      * 登出时间
      * 
      * @var \Carbon\Carbon
      */
-    protected $logoutTime;
+    public $logoutTime;
 
     /**
      * 创建新的事件实例
      * 
-     * @param string $sessionId 会话ID
-     * @param User|null $user 用户对象
+     * @param User $user 用户对象
      * @param TicketGrantingTicket|null $tgt TGT票据
      * @param string $reason 登出原因
      * @param string $clientIp 客户端IP
      * @param string $userAgent 用户代理
+     * @param string $sessionId 会话ID
      */
     public function __construct(
-        string $sessionId,
-        ?User $user = null,
+        User $user,
         ?TicketGrantingTicket $tgt = null,
         string $reason = 'user_logout',
         string $clientIp = '',
-        string $userAgent = ''
+        string $userAgent = '',
+        string $sessionId = ''
     ) {
-        $this->sessionId = $sessionId;
         $this->user = $user;
         $this->tgt = $tgt;
         $this->reason = $reason;
         $this->clientIp = $clientIp;
         $this->userAgent = $userAgent;
+        $this->sessionId = $sessionId;
         $this->logoutTime = now();
     }
 
@@ -105,87 +105,17 @@ class CasLogoutEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('cas-logout');
-    }
-    
-    /**
-     * 获取会话ID
-     * 
-     * @return string
-     */
-    public function getSessionId(): string
-    {
-        return $this->sessionId;
-    }
-    
-    /**
-     * 获取用户对象
-     * 
-     * @return User|null
-     */
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-    
-    /**
-     * 获取TGT票据
-     * 
-     * @return TicketGrantingTicket|null
-     */
-    public function getTgt(): ?TicketGrantingTicket
-    {
-        return $this->tgt;
-    }
-    
-    /**
-     * 获取登出原因
-     * 
-     * @return string
-     */
-    public function getReason(): string
-    {
-        return $this->reason;
-    }
-    
-    /**
-     * 获取客户端IP地址
-     * 
-     * @return string
-     */
-    public function getClientIp(): string
-    {
-        return $this->clientIp;
-    }
-    
-    /**
-     * 获取用户代理
-     * 
-     * @return string
-     */
-    public function getUserAgent(): string
-    {
-        return $this->userAgent;
-    }
-    
-    /**
-     * 获取登出时间
-     * 
-     * @return \Carbon\Carbon
-     */
-    public function getLogoutTime()
-    {
-        return $this->logoutTime;
+        return new PrivateChannel('cas-user-logout');
     }
     
     /**
      * 获取用户ID
      * 
-     * @return int|null
+     * @return int
      */
-    public function getUserId(): ?int
+    public function getUserId(): int
     {
-        return $this->user ? $this->user->id : null;
+        return $this->user->id;
     }
     
     /**
@@ -206,12 +136,13 @@ class CasLogoutEvent
     public function toArray(): array
     {
         return [
-            'session_id' => $this->sessionId,
-            'user_id' => $this->getUserId(),
+            'user_id' => $this->user->id,
+            'user_email' => $this->user->email ?? null,
             'tgt' => $this->tgt ? $this->tgt->tgt : null,
             'reason' => $this->reason,
             'client_ip' => $this->clientIp,
             'user_agent' => $this->userAgent,
+            'session_id' => $this->sessionId,
             'logout_time' => $this->logoutTime->toISOString(),
             'forced' => $this->isForcedLogout()
         ];

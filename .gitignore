@@ -1,3 +1,51 @@
+# Dependencies
 /vendor/
 composer.lock
+node_modules/
+
+# IDE
 /.idea
+/.vscode
+/.trae
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Cache
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+/bootstrap/cache/*
+
+# Testing
+/coverage/
+.phpunit.result.cache
+
+# Demo project (for development only)
+/demo_project/
+
+# Documentation build files
+/docs/_build/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Package files
+*.tar.gz
+*.zip

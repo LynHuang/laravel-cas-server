@@ -4,14 +4,19 @@ namespace Lyn\LaravelCasServer;
 
 use Illuminate\Support\ServiceProvider;
 use Lyn\LaravelCasServer\Commands\CasCreateClient;
+use Lyn\LaravelCasServer\Contracts\Interactions\UserLogin;
+use Lyn\LaravelCasServer\Contracts\Interactions\UserRegister;
+use Lyn\LaravelCasServer\Contracts\Interactions\UserPassword;
 use Lyn\LaravelCasServer\Http\Middleware\CasAuthenticate;
 use Lyn\LaravelCasServer\Http\Middleware\CasTicketCheck;
+use Lyn\LaravelCasServer\Interactions\DefaultUserLogin;
+use Lyn\LaravelCasServer\Interactions\DefaultUserRegister;
+use Lyn\LaravelCasServer\Interactions\DefaultUserPassword;
 use Lyn\LaravelCasServer\Providers\EventServiceProvider;
 use Route;
 
 class CasServerServiceProvider extends ServiceProvider
 {
-    protected $defer = true; // 延迟加载服务
 
 
     /**
@@ -21,7 +26,34 @@ class CasServerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-		$this->app->register(EventServiceProvider::class);
+        $this->app->register(EventServiceProvider::class);
+        
+        // 绑定UserLogin接口的默认实现
+        $this->app->bind(UserLogin::class, function ($app) {
+            $customClass = config('casserver.interactions.user_login');
+            if ($customClass && class_exists($customClass)) {
+                return $app->make($customClass);
+            }
+            return $app->make(DefaultUserLogin::class);
+        });
+        
+        // 绑定UserRegister接口的默认实现
+        $this->app->bind(UserRegister::class, function ($app) {
+            $customClass = config('casserver.interactions.user_register');
+            if ($customClass && class_exists($customClass)) {
+                return $app->make($customClass);
+            }
+            return $app->make(DefaultUserRegister::class);
+        });
+        
+        // 绑定UserPassword接口的默认实现
+        $this->app->bind(UserPassword::class, function ($app) {
+            $customClass = config('casserver.interactions.user_password');
+            if ($customClass && class_exists($customClass)) {
+                return $app->make($customClass);
+            }
+            return $app->make(DefaultUserPassword::class);
+        });
     }
 
     /**
@@ -38,6 +70,8 @@ class CasServerServiceProvider extends ServiceProvider
         $this->registerMiddleware();
         //register the commands
         $this->registerCommands();
+        //register views
+        $this->registerViews();
 
         //publish resource to laravel
         $this->publishes([
@@ -94,5 +128,15 @@ class CasServerServiceProvider extends ServiceProvider
                 CasCreateClient::class
             ]);
         }
+    }
+
+    private function registerViews()
+    {
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'casserver');
+        
+        // 发布视图文件
+        $this->publishes([
+            __DIR__ . '/resources/views' => resource_path('views/vendor/casserver'),
+        ], 'casserver-views');
     }
 }
